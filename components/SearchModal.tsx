@@ -9,7 +9,7 @@ const SearchModal: React.FC<{
 }> = ({ toggleModal, isOpen }) => {
   const cancelButtonRef = useRef(null);
   const [searchFocused, toggleSearchFocused] = useState(false);
-  
+
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog
