@@ -7,3 +7,16 @@
 body,*{
   font-family: 'Inter',sans-serif;
 }
+
+
+@layer utilities{
+  .text-fill{
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+@layer components{
+  .gradient-header{
+    @apply font-black text-2xl bg-gradient-to-r from-pink-500  to-purple-800 bg-clip-text text-fill;
+  }
+}

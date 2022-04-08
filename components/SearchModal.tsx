@@ -1,17 +1,34 @@
 import SearchInput from "./SearchInput";
 import SearchResultRow from "./SearchResultRow";
-import { Dispatch, Fragment, useRef, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import useDebounce from "../hooks/useDebounce";
+import { fetcher } from "../utils/fetcher";
+import { getFilmSearchUrl } from "../utils/constants";
+import AppContext from "./AppContext";
+import { Film } from "./MovieCard";
 
-const SearchModal: React.FC<{
-  toggleModal: Dispatch<React.SetStateAction<boolean>>;
-  isOpen?: boolean;
-}> = ({ toggleModal, isOpen }) => {
+const SearchModal: React.FC<{}> = () => {
+  const { toggleModal, showModal } = useContext(AppContext);
   const cancelButtonRef = useRef(null);
-  const [searchFocused, toggleSearchFocused] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const debouncedSearchText = useDebounce<string>(searchText, 500);
+  const [results, setResults] = useState<Film[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const data = await fetcher(getFilmSearchUrl(debouncedSearchText));
+      setResults(data.results);
+      setLoading(false);
+    };
+    if (debouncedSearchText != "") {
+      fetchData();
+    }
+  }, [debouncedSearchText]);
 
   return (
-    <Transition.Root show={isOpen} as={Fragment}>
+    <Transition.Root show={showModal} as={Fragment}>
       <Dialog
         as="div"
         className="fixed z-10 inset-0 overflow-y-auto"
@@ -28,7 +45,7 @@ const SearchModal: React.FC<{
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="fixed inset-0 backdrop-filter backdrop-blur-lg bg-opacity-75 transition-opacity" />
+            <Dialog.Overlay className="fixed inset-0 backdrop-filter backdrop-blur-[3px] bg-opacity-85 transition-opacity bg-black/20" />
           </Transition.Child>
 
           <span
@@ -48,21 +65,25 @@ const SearchModal: React.FC<{
           >
             <div className="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
               <div
-                className={`bg-white  ${
-                  searchFocused ? "animate-expand" : ""
-                } max-w-4xl rounded-lg w-full border-[1px] overflow-hidden`}
+                className={`bg-white   max-w-4xl rounded-lg w-full border-[1px] overflow-hidden`}
               >
                 <SearchInput
-                  focusEvent={(e) => {
-                    toggleSearchFocused(e);
-                  }}
-                  toggleModal={(val) => toggleModal(val)}
+                  searchText={searchText}
+                  setSearchText={setSearchText}
+                  loading={loading}
                 />
-                <div>
-                  <SearchResultRow title="Search Results" header={true} />
-                  <SearchResultRow title="Install Tailwind CSS with Next.js" />
-                  <SearchResultRow title="Install Tailwind CSS with Next.js" />
-                </div>
+                {results.length > 0 && (
+                  <div className={"animation-expand"}>
+                    <SearchResultRow title="Search Results" header={true} />
+                    {results.map((result) => (
+                      <SearchResultRow
+                        title={result.title}
+                        url={result.url}
+                        key={result.title}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </Transition.Child>

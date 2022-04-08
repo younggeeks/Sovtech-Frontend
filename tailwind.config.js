@@ -7,7 +7,6 @@ module.exports = {
     extend: {
       animation: {
         expand: "expand 2s cubic-bezier(0.8, 0, 1, 1) ",
-        shrink: "shrink 2s cubic-bezier(0.8, 0, 1, 1) ",
       },
       keyframes: {
         expand: {

@@ -1,9 +1,14 @@
-import React from "react";
+import Link from "next/link";
+import React, { useContext } from "react";
+import { handleLocalstorage } from "../utils/localstorage";
+import AppContext from "./AppContext";
 
-const SearchResultRow: React.FC<{ title: string; header?: boolean }> = ({
-  title,
-  header = false,
-}) => {
+const SearchResultRow: React.FC<{
+  title: string;
+  header?: boolean;
+  url?: string;
+}> = ({ title, url, header = false }) => {
+  const { toggleModal } = useContext(AppContext);
   if (header) {
     return (
       <div className="font-bold border-b">
@@ -11,10 +16,21 @@ const SearchResultRow: React.FC<{ title: string; header?: boolean }> = ({
       </div>
     );
   }
+
+  const id = url?.[url.length - 2];
   return (
-    <div className="py-3 px-2 hover:bg-slate-200 cursor-pointer mx-4 my-3 rounded-lg transition-all duration-500">
-      {title}
-    </div>
+    <Link href={`/films/${id}`}>
+      <a
+        onClick={() => {
+          handleLocalstorage(title, id);
+          toggleModal(false);
+        }}
+      >
+        <div className="py-3 px-2 hover:bg-slate-100 cursor-pointer mx-4 my-3 rounded-lg transition-all duration-500">
+          {title}
+        </div>
+      </a>
+    </Link>
   );
 };
 

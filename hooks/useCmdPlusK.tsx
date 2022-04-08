@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from "react";
 
 const useCommandKCombo = (
   callback: Dispatch<SetStateAction<boolean>>,
-  ref: React.MutableRefObject<HTMLDivElement | null | undefined>
+  ref: React.MutableRefObject<HTMLButtonElement | null | undefined>
 ) => {
   const handleClick = (e: KeyboardEvent) => {
     if (
