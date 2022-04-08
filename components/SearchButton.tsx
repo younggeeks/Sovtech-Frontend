@@ -2,6 +2,11 @@ import React, { useContext, useRef } from "react";
 import useCommandKCombo from "../hooks/useCmdPlusK";
 import AppContext from "./AppContext";
 
+/*
+    The useCommandKCombo hook is used to detect when the user presses the command key and K together.
+
+    */
+
 const SearchButton = () => {
   const btnRef = useRef<HTMLButtonElement | null>(null);
   const { toggleModal, showModal } = useContext(AppContext);

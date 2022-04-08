@@ -15,13 +15,7 @@ export default function Home(props: { films: Film[] }) {
   const { showModal } = useContext(AppContext);
 
   const { films } = props;
-  {
-    /*
-    The useCommandKCombo hook is used to detect when the user presses the command key and K together.
 
-    This guy know
-    */
-  }
   return (
     <div className="">
       <Head>
