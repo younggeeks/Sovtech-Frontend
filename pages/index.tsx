@@ -31,8 +31,6 @@ export default function Home(props: { films: Film[] }) {
         {showModal && <SearchModal />}
         <MoviesGrid films={films} />
       </main>
-
-      <footer></footer>
     </div>
   );
 }

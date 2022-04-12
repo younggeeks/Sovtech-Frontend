@@ -23,7 +23,7 @@ const FilmDetails = () => {
     return (
       <div className="container mx-auto">
         <Nav />
-        <div className="mt-20">
+        <div className="mt-20 py-0 px-0 md:py-4 lg:px-7">
           <Link href="/">
             <a>
               <svg
@@ -41,26 +41,28 @@ const FilmDetails = () => {
             </a>
           </Link>
         </div>
-        <div className="max-w-4xl mx-auto bg-purple-50 rounded-lg shadow-xl oveflow-hidden  mt-20">
-          <div className="flex overflow-hidden">
+        <div className="max-w-4xl mx-auto bg-white md:bg-purple-50 lg:bg-purple-50 rounded-lg shadow-xl oveflow-hidden  mt-5 md:mt-20 lg:mt-20">
+          <div className="flex overflow-hidden flex-col md:flex-row lg:flex-row mx-[30px] md:mx-0 lg:mx-0">
             <img
               src={`https://starwars-visualguide.com/assets/img/films/${id}.jpg`}
               className=" h-80 rounded-l-lg"
             />
-            <div className="py-4 px-7 h-80 space-y-1">
+            <div className="py-0 px-0 md:py-4 lg:px-7 h-80 space-y-1 mt-6 md:mt-0 lg:mt-0">
               <h4 className="font-medium text-2xl">
                 Episode {data.episode_id} : {data.title}
               </h4>
               <p className="text-md">
-                <span className="font-bold">Director:</span> {data.director}
+                <span className="font-bold">Director:</span>
+                <span className="text-gray-700"> {data.director}</span>
               </p>
               <p className="text-md">
-                <span className="font-bold">Producer:</span> {data.producer}
+                <span className="font-bold">Producer:</span>{" "}
+                <span className="text-gray-700">{data.producer}</span>
               </p>
               <p className="text-md">
                 <span className="font-bold">Opening Crawl:</span>{" "}
               </p>
-              <p className=" text-ellipsis  h-56 text-md ">
+              <p className=" text-ellipsis  h-56 text-md text-gray-700">
                 {data.opening_crawl}
               </p>
             </div>
@@ -69,7 +71,7 @@ const FilmDetails = () => {
       </div>
     );
   } else {
-    return <p>Something went wrong</p>;
+    return null;
   }
 };
 
